@@ -53,4 +53,13 @@ public class UserService {
         return userResponse;
     }
 
+    public Boolean roadmapExists(Integer id) {
+        Optional<User> user = this.userRepository.findById(id);
+        if (user.isPresent()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

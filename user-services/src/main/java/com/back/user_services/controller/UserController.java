@@ -31,6 +31,11 @@ public class UserController {
         return ResponseEntity.ok(this.userService.getAll()); 
     }
 
+    @GetMapping("/{id}/exists")
+    public ResponseEntity<Boolean> roadmapExists(@PathVariable Integer id) {
+        return ResponseEntity.ok(this.userService.roadmapExists(id)); 
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getRoadmap(@PathVariable Integer id) {
         return ResponseEntity.ok(this.userService.get(id)); 

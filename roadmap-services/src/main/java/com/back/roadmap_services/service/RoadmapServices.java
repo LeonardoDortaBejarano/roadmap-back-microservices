@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.back.roadmap_services.client.UserClient;
 import com.back.roadmap_services.exception.RoadmapNotFoundException;
 import com.back.roadmap_services.model.dto.RoadmapDto;
 import com.back.roadmap_services.model.entity.Roadmap;
@@ -15,10 +16,16 @@ import com.back.roadmap_services.model.repository.RoadmapRepository;
 public class RoadmapServices {
     @Autowired
     private RoadmapRepository roadmapRepository;
+    @Autowired
+    private UserClient userClient; 
 
     public RoadmapDto create(RoadmapDto requestRoadmap){
-        Roadmap roadmap = this.mapToRoadmap(requestRoadmap);
-        return this.mapToRoadmapDto(this.roadmapRepository.save(roadmap));
+        if (userClient.userExist(requestRoadmap.userId())) {
+            Roadmap roadmap = this.mapToRoadmap(requestRoadmap);
+            return this.mapToRoadmapDto(this.roadmapRepository.save(roadmap));
+        } else {
+            throw new RuntimeException("No se ha encontrado roadmap con id " + requestRoadmap.userId());
+        }
     }
     
     public List<RoadmapDto> getAll() {
