@@ -1,10 +1,12 @@
 package com.back.roadmap_services.client;
 
+import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(value = "user", url = "http://localhost:8081")
+@LoadBalancerClient
+@FeignClient(value = "user", url = "user-services")
 public interface UserClient {
 
     @GetMapping("/api/v1/user/{id}/exists")
